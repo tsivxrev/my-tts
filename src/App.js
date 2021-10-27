@@ -251,8 +251,8 @@ const App = () => {
         >
           <Epic
             activeStory={store.nav.activeStory}
-            tabbar={!isDesktop
-              && (
+            tabbar={(!isDesktop
+              && store.ready) && (
               <Tabbar>
                 <TabbarItem
                   onClick={store.onStoryChange}
@@ -291,7 +291,7 @@ const App = () => {
 
                 </TabbarItem>
               </Tabbar>
-              )}
+            )}
           >
             <View id="feed" modal={modals} activePanel="feed">
               <Feed id="feed" />
