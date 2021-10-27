@@ -1,0 +1,16 @@
+.vkuiView {
+  height: 100vh !important;
+}
+
+:root, body {
+  --accent: #2ECC71 !important;
+}
+
+/*
+.vkuiRichCell[data-type="payment"] .vkuiRichCell__after {
+  color: var(--dynamic_red) !important
+}*/
+
+.vkuiRichCell[data-type="replenishment"] .vkuiRichCell__after {
+  color: var(--accent) !important
+}
