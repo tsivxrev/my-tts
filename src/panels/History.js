@@ -37,7 +37,7 @@ const History = (id) => {
   return (
     <Panel id={id}>
       <PanelHeader>История поездок</PanelHeader>
-      {events.length > 0 ? <Group>{events}</Group>
+      {events.length > 0 ? <Group>{events.reverse()}</Group>
         : (
           <Group>
             <Placeholder icon={<Icon56HistoryOutline />}>
