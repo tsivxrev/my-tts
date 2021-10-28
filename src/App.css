@@ -11,6 +11,10 @@
   color: var(--dynamic_red) !important
 }*/
 
+.vkuiButton--lvl-commerce {
+  background-color: var(--accent);
+}
+
 .vkuiRichCell[data-type="replenishment"] .vkuiRichCell__after {
   color: var(--accent) !important
 }

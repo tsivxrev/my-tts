@@ -49,7 +49,7 @@ const App = () => {
             target="_blank"
             href={store.nav.modalProps.href}
             size="l"
-            mode="primary"
+            mode="commerce"
           >
             Перейти к новости
           </Button>
@@ -68,7 +68,7 @@ const App = () => {
             target="_blank"
             href={`https://tmn.pay2way.ru/tcard?c=${store.user.cardId}`}
             size="l"
-            mode="primary"
+            mode="commerce"
           >
             Перейти к пополнению
           </Button>
@@ -152,7 +152,7 @@ const App = () => {
             onClick={() => { store.bindCard(); }}
             disabled={!store.bindCardProperties.submitButtonActive}
             size="l"
-            mode="primary"
+            mode="commerce"
             loading={store.bindCardProperties.isFetching}
           >
             Привязать
