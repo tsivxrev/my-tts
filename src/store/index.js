@@ -3,7 +3,7 @@ import bridge from '@vkontakte/vk-bridge';
 import { fetchCard, fetchNews } from '../api';
 
 export default class Store {
-  isEmbedded = bridge.isEmbedded()
+  isEmbedded = false;
 
   nav = {
     activeView: 'home',
@@ -16,6 +16,7 @@ export default class Store {
   }
 
   user = {
+    scheme: 'bright_light',
     cardId: null,
     card: {},
   }
@@ -38,12 +39,28 @@ export default class Store {
     window.store = this;
   }
 
+  storageSet = async (key, value) => {
+    if (this.isEmbedded) {
+      try {
+        await bridge.send('VKWebAppStorageSet', { key, value });
+      } catch (err) {
+        localStorage.setItem(key, value);
+      }
+    }
+    localStorage.setItem(key, value);
+  }
+
   get ready() {
     return !!this.user.cardId;
   }
 
   onStoryChange = (e) => {
     this.nav.activeStory = e.currentTarget.dataset.story;
+  }
+
+  changeScheme = () => {
+    this.user.scheme = this.user.scheme === 'bright_light' ? 'space_gray' : 'bright_light';
+    this.storageSet('scheme', this.user.scheme);
   }
 
   go = (to) => { // {activeStory: 1, activeView: 2, activePanel: 3}
@@ -144,21 +161,10 @@ export default class Store {
 
   fetchUser = async () => {
     this.go({ activeStory: 'loading' });
-    let cardId = localStorage.getItem('cardId');
-
-    if (this.isEmbedded) {
-      try {
-        const { keys } = await bridge.send('VKWebAppStorageGet', { keys: ['cardId'] });
-        cardId = keys[0].value;
-      } catch (e) {
-        localStorage.getItem('cardId');
-      }
-    }
-
     this.fetchNews();
 
     try {
-      const { data } = await fetchCard(cardId);
+      const { data } = await fetchCard(this.user.cardId);
 
       if (data === 'EMPTY_CARD') {
         this.go({ activeStory: 'newCard' });
@@ -166,7 +172,6 @@ export default class Store {
       }
 
       runInAction(() => {
-        this.user.cardId = cardId;
         this.user.card = data;
       });
 

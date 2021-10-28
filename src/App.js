@@ -15,7 +15,7 @@ import {
   ViewWidth, View, Panel, usePlatform, InfoRow,
   VKCOM, Group, Cell, Epic, AppRoot, SimpleCell, PanelHeaderClose,
   useAdaptivity, Tabbar, TabbarItem, PanelHeaderButton,
-  ModalRoot, ModalCard, Input, Button,
+  ModalRoot, ModalCard, Input, Button, ConfigProvider,
   FormItem, FormLayout, ModalPage, ModalPageHeader, IOS, ANDROID, Separator,
 } from '@vkontakte/vkui';
 
@@ -179,13 +179,14 @@ const App = () => {
   }, []);
 
   return (
-    <AppRoot>
-      <SplitLayout
-        modal={modals}
-        header={hasHeader && <PanelHeader separator={false} />}
-        style={{ justifyContent: 'center' }}
-      >
-        {isDesktop && (
+    <ConfigProvider scheme={store.user.scheme}>
+      <AppRoot>
+        <SplitLayout
+          modal={modals}
+          header={hasHeader && <PanelHeader separator={false} />}
+          style={{ justifyContent: 'center' }}
+        >
+          {isDesktop && (
           <SplitCol fixed width="280px" maxWidth="280px">
             <Panel>
               {hasHeader && <PanelHeader />}
@@ -241,17 +242,17 @@ const App = () => {
               </Group>
             </Panel>
           </SplitCol>
-        )}
+          )}
 
-        <SplitCol
-          animate={!isDesktop}
-          spaced={isDesktop}
-          width={isDesktop ? '560px' : '100%'}
-          maxWidth={isDesktop ? '560px' : '100%'}
-        >
-          <Epic
-            activeStory={store.nav.activeStory}
-            tabbar={(!isDesktop
+          <SplitCol
+            animate={!isDesktop}
+            spaced={isDesktop}
+            width={isDesktop ? '560px' : '100%'}
+            maxWidth={isDesktop ? '560px' : '100%'}
+          >
+            <Epic
+              activeStory={store.nav.activeStory}
+              tabbar={(!isDesktop
               && store.ready) && (
               <Tabbar>
                 <TabbarItem
@@ -291,35 +292,36 @@ const App = () => {
 
                 </TabbarItem>
               </Tabbar>
-            )}
-          >
-            <View id="feed" modal={modals} activePanel="feed">
-              <Feed id="feed" />
-            </View>
+              )}
+            >
+              <View id="feed" modal={modals} activePanel="feed">
+                <Feed id="feed" />
+              </View>
 
-            <View id="loading" activePanel="loading">
-              <Loading id="loading" />
-            </View>
+              <View id="loading" activePanel="loading">
+                <Loading id="loading" />
+              </View>
 
-            <View id="newCard" activePanel="newCard">
-              <NewCard id="newCard" />
-            </View>
+              <View id="newCard" activePanel="newCard">
+                <NewCard id="newCard" />
+              </View>
 
-            <View id="history" activePanel="history">
-              <History id="history" />
-            </View>
+              <View id="history" activePanel="history">
+                <History id="history" />
+              </View>
 
-            <View id="settings" activePanel="settings">
-              <Settings id="settings" />
-            </View>
+              <View id="settings" activePanel="settings">
+                <Settings id="settings" />
+              </View>
 
-            <View id="home" activePanel="home">
-              <Home id="home" />
-            </View>
-          </Epic>
-        </SplitCol>
-      </SplitLayout>
-    </AppRoot>
+              <View id="home" activePanel="home">
+                <Home id="home" />
+              </View>
+            </Epic>
+          </SplitCol>
+        </SplitLayout>
+      </AppRoot>
+    </ConfigProvider>
   );
 };
 
